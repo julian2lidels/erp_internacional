@@ -27,11 +27,14 @@ export default function Navbar({ vistaActiva, setVistaActiva, sesion, rolActual,
   const grupoActivo = grupos.find((g) => g.items.includes(vistaActiva));
 
   return (
-    <header className="sticky top-0 z-50 border-b border-purple-400/20 bg-[#0A0614]/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-purple-400/20 bg-[#06030D]/95 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
         <button onClick={() => ir('inicio')} className="flex items-center gap-3.5 text-left group">
           <span className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-600 flex items-center justify-center font-extrabold text-white text-sm shadow-[0_0_25px_rgba(168,85,247,0.55)] group-hover:scale-105 transition">
-            ERP
+            <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="ERP Internacional">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M15 8.8c-.5-.9-1.6-1.4-3-1.4-1.7 0-3 .8-3 2.1 0 3 6 1.5 6 4.5 0 1.3-1.3 2.1-3 2.1-1.4 0-2.5-.5-3-1.4M12 5.5v13" />
+            </svg>
           </span>
           <span className="font-display text-xl font-bold text-white tracking-tight">ERP Internacional</span>
         </button>
@@ -61,7 +64,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, sesion, rolActual,
             </button>
 
             {abierto && (
-              <div className="absolute right-0 mt-2.5 w-[min(92vw,46rem)] rounded-3xl bg-[#120A24]/98 backdrop-blur-xl border border-purple-400/35 shadow-[0_20px_50px_rgba(0,0,0,0.75)] p-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-h-[75vh] overflow-y-auto">
+              <div className="absolute right-0 mt-2.5 w-[min(92vw,46rem)] rounded-3xl bg-[#06030D] border border-purple-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.9)] p-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-h-[75vh] overflow-y-auto">
                 {grupos.map((g) => (
                   <div key={g.id} className="space-y-2">
                     <p className="font-display text-lg text-white">{g.titulo}</p>

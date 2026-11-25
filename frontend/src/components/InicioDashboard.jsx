@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ENTIDADES, VISTAS_ESPECIALES, imagenDe, tituloDe } from '../config/entidades';
 import { getLista } from '../api';
+import Galaxia from './Galaxia';
 
 // Inicio con estructura de cartelera de teatro: hero a pantalla completa,
 // cinta de tasas de cambio y "en cartelera" con cada módulo como una función.
@@ -19,11 +20,7 @@ export default function InicioDashboard({ setVistaActiva, grupos, sesion, rolAct
   return (
     <div className="-mx-6 -mt-8">
       <section className="relative min-h-[78vh] flex items-center overflow-hidden border-b border-purple-400/20">
-        <img
-          src="/img/gojo.png"
-          alt="Gojo liberando una esfera de energía morada"
-          className="absolute right-0 top-0 h-full w-full md:w-[62%] object-cover object-center"
-        />
+        <Galaxia />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07040F] via-[#07040F]/80 to-transparent md:via-[#07040F]/45" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#07040F] to-transparent" />
 

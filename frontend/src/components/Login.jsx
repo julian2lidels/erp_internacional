@@ -1,3 +1,4 @@
+import Galaxia from './Galaxia';
 import { useState } from 'react';
 import { enviar, guardarSesion } from '../api';
 
@@ -34,7 +35,7 @@ export default function Login({ onLogin }) {
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       <div className="relative hidden lg:block overflow-hidden">
-        <img src="/img/gojo.png" alt="Gojo liberando una esfera de energía morada" className="absolute inset-0 w-full h-full object-cover" />
+        <Galaxia />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#07040F]" />
         <div className="absolute bottom-12 left-12 right-24">
           <p className="font-display text-5xl font-bold text-white leading-tight">Finanzas globales, sin límites</p>
