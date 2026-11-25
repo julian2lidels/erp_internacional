@@ -3,7 +3,7 @@ CREATE DATABASE erp_internacional CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_
 USE erp_internacional;
 
 CREATE TABLE moneda (
-    codigo_moneda CHAR(3)     PRIMARY KEY,         
+    codigo_moneda CHAR(3)     PRIMARY KEY,           -- COP, USD, EUR
     nombre        VARCHAR(50) NOT NULL,
     simbolo       VARCHAR(5)  NOT NULL
 ) ENGINE=InnoDB;
@@ -38,10 +38,10 @@ CREATE TABLE sucursal (
     FOREIGN KEY (codigo_moneda_base) REFERENCES moneda(codigo_moneda)
 ) ENGINE=InnoDB;
 
-CREATE TABLE impuesto (                               
+CREATE TABLE impuesto (                               -- ERP-VEN-004
     id_impuesto INT AUTO_INCREMENT PRIMARY KEY,
     id_pais     INT          NOT NULL,
-    nombre      VARCHAR(50)  NOT NULL,                
+    nombre      VARCHAR(50)  NOT NULL,                -- IVA, VAT...
     porcentaje  DECIMAL(5,2) NOT NULL CHECK (porcentaje >= 0),
     FOREIGN KEY (id_pais) REFERENCES pais(id_pais)
 ) ENGINE=InnoDB;
@@ -120,7 +120,7 @@ CREATE TABLE cliente (
     FOREIGN KEY (codigo_moneda) REFERENCES moneda(codigo_moneda)
 ) ENGINE=InnoDB;
 
-CREATE TABLE proveedor (                              
+CREATE TABLE proveedor (                              -- ERP-COM-003
     id_proveedor     INT AUTO_INCREMENT PRIMARY KEY,
     nombre           VARCHAR(120) NOT NULL,
     id_pais          INT NOT NULL,
