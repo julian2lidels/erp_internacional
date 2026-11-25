@@ -276,3 +276,105 @@ CREATE TABLE nomina (
     FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado)
 ) ENGINE=InnoDB;
 
+INSERT INTO moneda VALUES
+('COP','Peso colombiano','$'),
+('USD','Dólar estadounidense','US$'),
+('EUR','Euro','€');
+
+INSERT INTO pais (nombre, codigo_iso, codigo_moneda) VALUES
+('Colombia','CO','COP'),
+('Estados Unidos','US','USD'),
+('España','ES','EUR');
+
+INSERT INTO tasa_cambio (moneda_origen, moneda_destino, tasa, fecha_vigencia, fuente) VALUES
+('USD','COP', 4000.000000, '2026-10-27', 'Banco de la República'),
+('EUR','COP', 4350.000000, '2026-10-27', 'Banco de la República');
+
+INSERT INTO sucursal (nombre, id_pais, direccion, codigo_moneda_base) VALUES
+('Sede Bogotá',  1, 'Calle 100 # 15-20', 'COP'),
+('Sede Miami',   2, '100 Brickell Ave',  'USD'),
+('Sede Madrid',  3, 'Gran Vía 28',       'EUR');
+
+INSERT INTO impuesto (id_pais, nombre, porcentaje) VALUES
+(1,'IVA',19.00),
+(2,'Sales Tax',7.00),
+(3,'IVA',21.00);
+
+INSERT INTO rol (nombre, descripcion) VALUES
+('Administrador del sistema','Acceso total'),
+('Gerente de ventas','Gestión de ventas'),
+('Jefe de inventario','Gestión de inventario'),
+('Encargado de compras','Gestión de compras'),
+('Administrador financiero','Gestión contable'),
+('Analista de RRHH','Gestión de empleados y nómina');
+
+INSERT INTO modulo (nombre) VALUES
+('Finanzas'),('Inventario'),('Compras'),('Ventas'),('Recursos Humanos'),('Seguridad');
+
+INSERT INTO rol_modulo VALUES
+(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),
+(2,4),(3,2),(4,3),(5,1),(6,5);
+
+INSERT INTO usuario (nombre, email, password_hash, id_rol, id_sucursal, idioma) VALUES
+('Admin General',  'admin@erp.com',   'hash_demo_1', 1, 1, 'es'),
+('Laura Gómez',    'laura@erp.com',   'hash_demo_2', 4, 1, 'es'),
+('John Smith',     'john@erp.com',    'hash_demo_3', 2, 2, 'en'),
+('Carlos Ruiz',    'carlos@erp.com',  'hash_demo_4', 3, 3, 'es');
+
+INSERT INTO periodo_contable (id_sucursal, anio, mes, estado) VALUES
+(1, 2026, 10, 'ABIERTO'),
+(2, 2026, 10, 'ABIERTO');
+
+INSERT INTO asiento_contable (id_periodo, fecha, descripcion, monto_original, codigo_moneda, tasa_aplicada, monto_base) VALUES
+(1, '2026-10-20', 'Pago de servicio en USD', 500.00, 'USD', 4000, 2000000.00);
+
+INSERT INTO cliente (nombre, id_pais, email, codigo_moneda) VALUES
+('Tech Solutions LLC', 2, 'contacto@techsol.com', 'USD'),
+('Distribuciones Andina', 1, 'ventas@andina.co', 'COP');
+
+INSERT INTO proveedor (nombre, id_pais, identificacion_fiscal, codigo_moneda, condiciones_pago) VALUES
+('Global Parts Inc', 2, 'US-123456', 'USD', '30 días'),
+('Suministros Ibéricos SL', 3, 'ES-B987654', 'EUR', '45 días');
+
+INSERT INTO producto (sku, nombre, precio_base, stock_minimo) VALUES
+('LAP-001','Portátil empresarial', 2500000.00, 5),
+('IMP-002','Impresora láser',       900000.00, 3),
+('MON-003','Monitor 24 pulgadas',   700000.00, 10);
+
+INSERT INTO bodega (nombre, id_sucursal) VALUES
+('Bodega Bogotá', 1),
+('Bodega Miami',  2),
+('Bodega Madrid', 3);
+
+INSERT INTO stock VALUES
+(1,1,20),(1,2,8),(1,3,4),
+(2,1,15),(2,3,30),
+(3,1,6);
+
+INSERT INTO orden_compra (id_proveedor, id_sucursal, id_usuario_solicitante, id_usuario_aprobador, fecha, estado, fecha_estimada_entrega, codigo_moneda, total) VALUES
+(1, 1, 2, 1, '2026-10-15', 'EN_TRANSITO', '2026-11-05', 'USD', 5000.00);
+
+INSERT INTO detalle_orden_compra (id_orden_compra, id_producto, cantidad, precio_unitario) VALUES
+(1, 3, 20, 250.00);
+
+INSERT INTO pedido_venta (id_cliente, id_usuario, id_sucursal, fecha, estado) VALUES
+(1, 3, 2, '2026-10-22', 'FACTURADO');
+
+INSERT INTO detalle_pedido_venta (id_pedido, id_producto, cantidad, precio_unitario) VALUES
+(1, 1, 2, 650.00);
+
+INSERT INTO factura (id_pedido, id_impuesto, fecha, subtotal, valor_impuesto, total, codigo_moneda, tasa_aplicada) VALUES
+(1, 2, '2026-10-22', 1300.00, 91.00, 1391.00, 'USD', 1);
+
+INSERT INTO empleado (nombre, documento, cargo, salario, codigo_moneda, id_sucursal, fecha_ingreso) VALUES
+('Ana Torres',   '1020304050', 'Contadora', 5000000.00, 'COP', 1, '2024-03-01'),
+('Mark Johnson', 'US-778899',  'Vendedor',  4200.00,    'USD', 2, '2025-01-15');
+
+INSERT INTO novedad (id_empleado, tipo, fecha_inicio, fecha_fin, aprobada) VALUES
+(1, 'HORAS_EXTRA', '2026-10-10', '2026-10-10', TRUE);
+
+INSERT INTO nomina (id_empleado, anio, mes, salario_base, bonificaciones, deducciones, neto_pagar) VALUES
+(1, 2026, 10, 5000000.00, 150000.00, 400000.00, 4750000.00);
+
+INSERT INTO auditoria (id_usuario, tabla_afectada, accion, valor_anterior, valor_nuevo) VALUES
+(1, 'producto', 'UPDATE', 'precio_base=2400000', 'precio_base=2500000');
