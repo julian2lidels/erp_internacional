@@ -12,15 +12,12 @@ Usa estos datos (o los tuyos, pero anótalos):
 - MySQL Database Name: `erp_internacional`
 - Nombre del Service: `mysql`
 
-Cargar las tablas (con `oc` en tu terminal, desde la raíz del repo):
+Las 24 tablas y los datos de ejemplo **se crean solos** cuando arranca el backend
+(lee `backend/schema/init.sql`). No hay que cargar nada a mano. Si MySQL tiene un esquema
+viejo, el backend lo detecta y lo recrea.
 
-```bash
-oc get pods                                   # copia el nombre del pod mysql-xxxx
-oc rsync database/ NOMBRE_POD_MYSQL:/tmp/
-oc rsh NOMBRE_POD_MYSQL
-mysql -u erpuser -p erp_internacional < /tmp/database/init.sql
-exit
-```
+Cuentas de prueba: `admin@erp.com / admin123`, `operador@erp.com / oper123`,
+`auditor@erp.com / audit123`.
 
 ## 2. Backend (FastAPI)
 **+Add → Import from Git**
@@ -37,7 +34,7 @@ exit
   - `DB_PASS=<tu contraseña>`  (mejor desde un Secret)
   - `DB_NAME=erp_internacional`
 
-Verifica en **Pods → Logs** que diga `Uvicorn running on http://0.0.0.0:8080`.
+Verifica en **Pods → Logs** que diga `Uvicorn running on http://0.0.0.0:8080` y luego `Base de datos creada con datos iniciales`.
 
 ## 3. Frontend (React + Nginx)
 **+Add → Import from Git**
@@ -47,7 +44,8 @@ Verifica en **Pods → Logs** que diga `Uvicorn running on http://0.0.0.0:8080`.
 - Target port: `8080`
 - **Marca** "Create a route" (esta es la URL pública)
 - Si tu Service del backend tiene otro nombre, agrega la variable
-  `BACKEND_URL=http://NOMBRE_DEL_SERVICE:8080`
+  `API_UPSTREAM_HOST=NOMBRE_DEL_SERVICE` (y `API_UPSTREAM_PORT` si no es 8080).
+  No uses `BACKEND_PORT`: OpenShift la define sola con otro valor y rompe nginx
 
 ## 4. Abrir la página
 En **Topology**, pulsa el ícono ↗ del círculo `frontend`, o en **Networking → Routes** copia la columna *Location*.

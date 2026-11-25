@@ -1,9 +1,8 @@
-Base de datos sin consultas 
 CREATE DATABASE erp_internacional CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE erp_internacional;
 
 CREATE TABLE moneda (
-    codigo_moneda CHAR(3)     PRIMARY KEY,         
+    codigo_moneda CHAR(3)     PRIMARY KEY,           -- COP, USD, EUR
     nombre        VARCHAR(50) NOT NULL,
     simbolo       VARCHAR(5)  NOT NULL
 ) ENGINE=InnoDB;
@@ -38,13 +37,15 @@ CREATE TABLE sucursal (
     FOREIGN KEY (codigo_moneda_base) REFERENCES moneda(codigo_moneda)
 ) ENGINE=InnoDB;
 
-CREATE TABLE impuesto (                               
+CREATE TABLE impuesto (                               -- ERP-VEN-004
     id_impuesto INT AUTO_INCREMENT PRIMARY KEY,
     id_pais     INT          NOT NULL,
-    nombre      VARCHAR(50)  NOT NULL,                
+    nombre      VARCHAR(50)  NOT NULL,                -- IVA, VAT...
     porcentaje  DECIMAL(5,2) NOT NULL CHECK (porcentaje >= 0),
     FOREIGN KEY (id_pais) REFERENCES pais(id_pais)
 ) ENGINE=InnoDB;
+
+CREATE TABLE rol (
     id_rol      INT AUTO_INCREMENT PRIMARY KEY,
     nombre      VARCHAR(50) NOT NULL UNIQUE,
     descripcion VARCHAR(200)
@@ -120,7 +121,7 @@ CREATE TABLE cliente (
     FOREIGN KEY (codigo_moneda) REFERENCES moneda(codigo_moneda)
 ) ENGINE=InnoDB;
 
-CREATE TABLE proveedor (                              
+CREATE TABLE proveedor (                              -- ERP-COM-003
     id_proveedor     INT AUTO_INCREMENT PRIMARY KEY,
     nombre           VARCHAR(120) NOT NULL,
     id_pais          INT NOT NULL,
@@ -276,36 +277,88 @@ CREATE TABLE nomina (
 
 
 
-INSERT IGNORE INTO rol (id_rol, nombre, descripcion) VALUES
-(1, 'Administrador', 'Acceso total: gestión de roles, usuarios, sucursales, impuestos y tasas'),
-(2, 'Operador', 'Operación diaria: consulta y registro de tasas de cambio y movimientos'),
-(3, 'Auditor', 'Solo lectura: supervisión de tasas, monedas, impuestos y auditoría');
+-- ===================== DATOS INICIALES =====================
+INSERT INTO rol (id_rol, nombre, descripcion) VALUES
+(1, 'Administrador', 'Acceso total a todos los módulos'),
+(2, 'Operador', 'Operación diaria: divisas, ventas, compras e inventario'),
+(3, 'Auditor', 'Solo lectura: finanzas, organización y contabilidad');
 
-INSERT IGNORE INTO moneda (id_moneda, codigo_iso, nombre, simbolo, activa) VALUES
-(1, 'COP', 'Peso Colombiano', '$', 1),
-(2, 'USD', 'Dólar Estadounidense', 'US$', 1),
-(3, 'EUR', 'Euro', '€', 1);
+INSERT INTO moneda (codigo_moneda, nombre, simbolo) VALUES
+('COP', 'Peso Colombiano', '$'),
+('USD', 'Dólar Estadounidense', 'US$'),
+('EUR', 'Euro', '€');
 
-INSERT IGNORE INTO sucursal (id_sucursal, codigo, nombre, pais, ciudad, id_moneda_base, activa) VALUES
-(1, 'BOG-01', 'Sede Principal Bogotá', 'Colombia', 'Bogotá', 1, 1),
-(2, 'MIA-01', 'Sucursal Internacional Miami', 'Estados Unidos', 'Miami', 2, 1),
-(3, 'MAD-01', 'Centro Operativo Madrid', 'España', 'Madrid', 3, 1);
+INSERT INTO pais (id_pais, nombre, codigo_iso, codigo_moneda) VALUES
+(1, 'Colombia', 'CO', 'COP'),
+(2, 'Estados Unidos', 'US', 'USD'),
+(3, 'España', 'ES', 'EUR');
 
-INSERT IGNORE INTO impuesto (id_impuesto, nombre, porcentaje, pais, activo) VALUES
-(1, 'IVA General Colombia', 19.00, 'Colombia', 1),
-(2, 'Sales Tax Florida', 7.00, 'Estados Unidos', 1),
-(3, 'IVA General España', 21.00, 'España', 1);
+INSERT INTO sucursal (id_sucursal, nombre, id_pais, direccion, codigo_moneda_base) VALUES
+(1, 'Sede Principal Bogotá', 1, 'Calle 100 # 10-20, Bogotá', 'COP'),
+(2, 'Sucursal Internacional Miami', 2, '1200 Brickell Ave, Miami', 'USD'),
+(3, 'Centro Operativo Madrid', 3, 'Paseo de la Castellana 50, Madrid', 'EUR');
 
-INSERT IGNORE INTO usuario (id_usuario, nombre, email, password_hash, id_rol, id_sucursal, activo) VALUES
-(1, 'Julian Medina', 'admin@erp.com', 'admin123', 1, 1, 1),
-(2, 'Carlos Operador', 'operador@erp.com', 'oper123', 2, 1, 1),
-(3, 'Laura Auditora', 'auditor@erp.com', 'audit123', 3, 2, 1);
+INSERT INTO impuesto (id_impuesto, id_pais, nombre, porcentaje) VALUES
+(1, 1, 'IVA General Colombia', 19.00),
+(2, 2, 'Sales Tax Florida', 7.00),
+(3, 3, 'IVA General España', 21.00);
 
-INSERT IGNORE INTO tasa_cambio (id_tasa, id_moneda_origen, id_moneda_destino, tasa, fecha_vigencia) VALUES
-(1, 2, 1, 4350.000000, '2026-11-24'),
-(2, 3, 1, 4680.000000, '2026-11-24'),
-(3, 3, 2, 1.080000, '2026-11-24');
+INSERT INTO tasa_cambio (moneda_origen, moneda_destino, tasa, fecha_vigencia, fuente) VALUES
+('USD', 'COP', 4350.000000, '2026-11-24', 'Banco de la República'),
+('EUR', 'COP', 4680.000000, '2026-11-24', 'Banco de la República'),
+('EUR', 'USD', 1.080000, '2026-11-24', 'BCE');
 
-INSERT IGNORE INTO auditoria (id_auditoria, usuario_actor, accion, modulo) VALUES
-(1, 'Julian Medina', 'Inicialización del núcleo ERP Internacional', 'Seguridad y Accesos'),
-(2, 'Carlos Operador', 'Actualización de tasa USD -> COP', 'Divisas y Finanzas');
+INSERT INTO modulo (id_modulo, nombre) VALUES
+(1, 'DIVISAS'), (2, 'ORGANIZACION'), (3, 'SEGURIDAD'), (4, 'VENTAS'),
+(5, 'COMPRAS'), (6, 'INVENTARIO'), (7, 'CONTABILIDAD'), (8, 'RRHH');
+
+INSERT INTO rol_modulo (id_rol, id_modulo) VALUES
+(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),
+(2,1),(2,4),(2,5),(2,6),
+(3,1),(3,2),(3,7);
+
+-- Contraseñas (bcrypt): admin123 / oper123 / audit123
+INSERT INTO usuario (id_usuario, nombre, email, password_hash, id_rol, id_sucursal, idioma, activo) VALUES
+(1, 'Julian Medina', 'admin@erp.com', '$2b$12$DmhBcdk8ecu3r9UMAevYjOTmkFsKlIhete/nu3pQ/qH4gPyJi.Usm', 1, 1, 'es', TRUE),
+(2, 'Carlos Operador', 'operador@erp.com', '$2b$12$06SrgdFLpSm0IHOnwMDTn./2B9Loy7PWgwxrW8QOcTfzNWflOZfOq', 2, 1, 'es', TRUE),
+(3, 'Laura Auditora', 'auditor@erp.com', '$2b$12$OzFVPA7LJeUNi07uUNDYL.Xi405zaxc23P8F/sjzStmreZtXtpazC', 3, 2, 'es', TRUE);
+
+INSERT INTO auditoria (id_usuario, tabla_afectada, accion, valor_anterior, valor_nuevo) VALUES
+(1, 'usuario', 'INSERT', NULL, '{"email": "admin@erp.com", "rol": 1}'),
+(2, 'tasa_cambio', 'INSERT', NULL, '{"par": "USD/COP", "tasa": 4350}');
+
+INSERT INTO periodo_contable (id_periodo, id_sucursal, anio, mes, estado) VALUES
+(1, 1, 2026, 11, 'ABIERTO'), (2, 1, 2026, 10, 'CERRADO');
+
+INSERT INTO asiento_contable (id_periodo, fecha, descripcion, monto_original, codigo_moneda, tasa_aplicada, monto_base) VALUES
+(1, '2026-11-20', 'Pago de licencias en USD', 1000.00, 'USD', 4350, 4350000.00);
+
+INSERT INTO cliente (id_cliente, nombre, id_pais, email, codigo_moneda) VALUES
+(1, 'Distribuidora Andina S.A.S.', 1, 'compras@andina.co', 'COP'),
+(2, 'Miami Retail Group', 2, 'orders@miamiretail.com', 'USD');
+
+INSERT INTO proveedor (id_proveedor, nombre, id_pais, identificacion_fiscal, codigo_moneda, condiciones_pago, activo) VALUES
+(1, 'Tecnologías Iberia S.L.', 3, 'ES-B12345678', 'EUR', '30 días', TRUE),
+(2, 'Global Parts Inc.', 2, 'US-98-7654321', 'USD', '45 días', TRUE);
+
+INSERT INTO producto (id_producto, sku, nombre, precio_base, stock_minimo, activo) VALUES
+(1, 'LAP-001', 'Portátil 14 pulgadas', 2500000.00, 5, TRUE),
+(2, 'MON-002', 'Monitor 27 pulgadas', 900000.00, 3, TRUE),
+(3, 'TEC-003', 'Teclado mecánico', 250000.00, 10, TRUE);
+
+INSERT INTO bodega (id_bodega, nombre, id_sucursal) VALUES
+(1, 'Bodega Central Bogotá', 1),
+(2, 'Bodega Miami', 2);
+
+INSERT INTO stock (id_bodega, id_producto, cantidad) VALUES
+(1, 1, 20), (1, 2, 12), (1, 3, 40), (2, 1, 8);
+
+INSERT INTO empleado (id_empleado, nombre, documento, cargo, salario, codigo_moneda, id_sucursal, fecha_ingreso) VALUES
+(1, 'Ana María Rojas', '1020304050', 'Contadora', 5200000.00, 'COP', 1, '2024-02-01'),
+(2, 'John Carter', 'US-4455667', 'Sales Manager', 4800.00, 'USD', 2, '2023-08-15');
+
+INSERT INTO novedad (id_empleado, tipo, fecha_inicio, fecha_fin, aprobada) VALUES
+(1, 'VACACIONES', '2026-12-15', '2026-12-30', FALSE);
+
+INSERT INTO nomina (id_empleado, anio, mes, salario_base, bonificaciones, deducciones, neto_pagar) VALUES
+(1, 2026, 10, 5200000.00, 300000.00, 208000.00, 5292000.00);

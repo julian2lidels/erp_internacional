@@ -12,6 +12,8 @@ from src.config.database import get_db
 from src.middlewares.error_handler import global_exception_handler
 from src.modules.core.routes import router as core_router
 from src.modules.seguridad.routes import router as seguridad_router
+from src.modules.erp.routes import router as erp_router
+from src.config.init_db import iniciar_en_segundo_plano
 
 app = FastAPI(
     title="ERP Internacional API",
@@ -22,7 +24,7 @@ app = FastAPI(
 # CORS: en OpenShift el frontend usa el mismo origen (Nginx hace proxy a /api),
 # así que normalmente no hace falta. Para otros orígenes, define CORS_ORIGINS
 # separados por coma, ej: "https://mi-frontend.apps.example.com"
-origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",") if o.strip()]
+origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:8080").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -34,6 +36,12 @@ app.add_middleware(
 app.add_exception_handler(Exception, global_exception_handler)
 app.include_router(core_router)
 app.include_router(seguridad_router)
+app.include_router(erp_router)
+
+
+@app.on_event("startup")
+def al_iniciar():
+    iniciar_en_segundo_plano()
 
 
 # ---------- Health check ----------

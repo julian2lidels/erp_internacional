@@ -1,46 +1,62 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Navbar from './components/Navbar';
 import InicioDashboard from './components/InicioDashboard';
-import Monedas from './components/Monedas';
-import TasasCambio from './components/TasasCambio';
-import Sucursales from './components/Sucursales';
-import Impuestos from './components/Impuestos';
-import Roles from './components/Roles';
+import CrudPage from './components/CrudPage';
 import Usuarios from './components/Usuarios';
-import Auditoria from './components/Auditoria';
+import Login from './components/Login';
+import { ENTIDADES, GRUPOS } from './config/entidades';
+import { getLista, guardarSesion, leerSesion } from './api';
 
 export default function App() {
+  const [sesion, setSesion] = useState(() => leerSesion());
   const [vistaActiva, setVistaActiva] = useState('inicio');
   const [rolActual, setRolActual] = useState(null);
 
-  const esAdmin =
-    rolActual?.nombre?.toLowerCase() === 'administrador' || rolActual?.id_rol === 1;
+  // Nombre del rol de quien inició sesión
+  useEffect(() => {
+    if (!sesion) return setRolActual(null);
+    getLista('/api/erp/roles').then((roles) => setRolActual(roles.find((r) => r.id_rol === sesion.id_rol) || null));
+  }, [sesion]);
+
+  const esAdmin = rolActual?.nombre === 'Administrador';
+  const soloLectura = rolActual?.nombre === 'Auditor';
+
+  // Cada rol solo ve los módulos que tiene asignados (tabla rol_modulo)
+  const grupos = useMemo(() => {
+    const permitidos = sesion?.modulos_permitidos || [];
+    return GRUPOS.filter((g) => esAdmin || (!g.admin && permitidos.includes(g.modulo)));
+  }, [sesion, esAdmin]);
+
+  const vistasPermitidas = useMemo(() => new Set(grupos.flatMap((g) => g.items)), [grupos]);
+
+  const salir = () => {
+    guardarSesion(null);
+    setSesion(null);
+    setVistaActiva('inicio');
+  };
+
+  if (!sesion) return <Login onLogin={setSesion} />;
+
+  const vista = vistaActiva === 'inicio' || vistasPermitidas.has(vistaActiva) ? vistaActiva : 'inicio';
 
   return (
     <div className="min-h-screen flex flex-col justify-between text-slate-100">
       <div>
         <Navbar
-          vistaActiva={vistaActiva}
+          vistaActiva={vista}
           setVistaActiva={setVistaActiva}
+          sesion={sesion}
           rolActual={rolActual}
-          setRolActual={setRolActual}
+          grupos={grupos}
+          onLogout={salir}
         />
 
         <main className="max-w-7xl mx-auto px-6 py-8">
-          {vistaActiva === 'inicio' && (
-            <InicioDashboard
-              setVistaActiva={setVistaActiva}
-              esAdmin={esAdmin}
-              rolActual={rolActual}
-            />
+          {vista === 'inicio' && (
+            <InicioDashboard setVistaActiva={setVistaActiva} grupos={grupos} sesion={sesion} rolActual={rolActual} />
           )}
-          {vistaActiva === 'monedas' && <Monedas />}
-          {vistaActiva === 'tasas' && <TasasCambio />}
-          {vistaActiva === 'sucursales' && <Sucursales />}
-          {vistaActiva === 'impuestos' && <Impuestos />}
-          {vistaActiva === 'roles' && esAdmin && <Roles />}
-          {vistaActiva === 'usuarios' && esAdmin && <Usuarios />}
-          {vistaActiva === 'auditoria' && esAdmin && <Auditoria />}
+          {vista === 'usuarios' && <Usuarios soloLectura={soloLectura} />}
+          {ENTIDADES[vista] && <CrudPage key={vista} clave={vista} soloLectura={soloLectura} />}
         </main>
       </div>
 

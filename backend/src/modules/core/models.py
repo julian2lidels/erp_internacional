@@ -22,3 +22,20 @@ class Pais(Base):
 
     # Relación directa con la moneda
     moneda = relationship("Moneda", back_populates="paises")
+
+class Rol(Base):
+    __tablename__ = "rol"
+
+    id_rol = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(50), nullable=False, unique=True)
+    descripcion = Column(String(200))
+
+
+class Sucursal(Base):
+    __tablename__ = "sucursal"
+
+    id_sucursal = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(100), nullable=False)
+    id_pais = Column(Integer, ForeignKey("pais.id_pais"), nullable=False)
+    direccion = Column(String(200))
+    codigo_moneda_base = Column(String(3), ForeignKey("moneda.codigo_moneda"), nullable=False)

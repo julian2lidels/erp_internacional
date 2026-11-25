@@ -1,48 +1,23 @@
+import { useEffect, useState } from 'react';
+import { ENTIDADES, VISTAS_ESPECIALES, imagenDe, tituloDe } from '../config/entidades';
+import { getLista } from '../api';
+
 // Inicio con estructura de cartelera de teatro: hero a pantalla completa,
-// cinta de divisas y "en cartelera" con cada módulo como una función.
-const GRUPOS = [
-  {
-    id: 'finanzas',
-    titulo: 'Divisas y Finanzas',
-    texto: 'Catálogo de monedas ISO y registro histórico de tasas de conversión entre mercados.',
-    imagen: '/img/monedas.svg',
-    items: [
-      { vista: 'monedas', nombre: 'Monedas', detalle: 'Divisas habilitadas para operar', imagen: '/img/monedas.svg' },
-      { vista: 'tasas', nombre: 'Tasas de Cambio', detalle: 'Conversión entre mercados', imagen: '/img/tasas.svg' },
-    ],
-  },
-  {
-    id: 'global',
-    titulo: 'Organización Global',
-    texto: 'Sedes y sucursales internacionales, con las reglas fiscales de cada jurisdicción.',
-    imagen: '/img/sucursales.svg',
-    items: [
-      { vista: 'sucursales', nombre: 'Sedes y Sucursales', detalle: 'Presencia en cada país', imagen: '/img/sucursales.svg' },
-      { vista: 'impuestos', nombre: 'Impuestos', detalle: 'Reglas por jurisdicción', imagen: '/img/impuestos.svg' },
-    ],
-  },
-  {
-    id: 'seguridad',
-    titulo: 'Seguridad y Accesos',
-    texto: 'Roles, permisos por módulo, usuarios y trazabilidad de cada cambio.',
-    imagen: '/img/roles.svg',
-    admin: true,
-    items: [
-      { vista: 'roles', nombre: 'Roles', detalle: 'Qué puede hacer cada perfil', imagen: '/img/roles.svg' },
-      { vista: 'usuarios', nombre: 'Usuarios y Permisos', detalle: 'Altas, bajas y accesos', imagen: '/img/usuarios.svg' },
-      { vista: 'auditoria', nombre: 'Auditoría', detalle: 'Historial del sistema', imagen: '/img/auditoria.svg' },
-    ],
-  },
-];
+// cinta de tasas de cambio y "en cartelera" con cada módulo como una función.
+function descripcionDe(clave) {
+  return ENTIDADES[clave]?.descripcion || (VISTAS_ESPECIALES[clave] ? 'Cuentas, estados y permisos por módulo' : '');
+}
 
-const DIVISAS = ['USD', 'EUR', 'COP', 'GBP', 'JPY', 'MXN', 'BRL', 'CHF', 'CAD', 'CNY'];
+export default function InicioDashboard({ setVistaActiva, grupos, sesion, rolActual }) {
+  const [tasas, setTasas] = useState([]);
+  const primerGrupo = grupos[0];
 
-export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) {
-  const grupos = GRUPOS.filter((g) => !g.admin || esAdmin);
+  useEffect(() => {
+    getLista('/api/erp/tasas-cambio').then((t) => setTasas(t.slice(0, 8)));
+  }, []);
 
   return (
     <div className="-mx-6 -mt-8">
-      {/* Hero a pantalla completa con la imagen de Gojo */}
       <section className="relative min-h-[78vh] flex items-center overflow-hidden border-b border-purple-400/20">
         <img
           src="/img/gojo.png"
@@ -58,37 +33,36 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
               Finanzas globales, sin límites
             </h1>
             <p className="text-base md:text-lg text-purple-100/80 leading-relaxed max-w-xl">
-              Monedas, tasas de cambio, sucursales e impuestos de todos tus países en un solo lugar.
-              {rolActual?.nombre ? ` Estás viendo el sistema como ${rolActual.nombre}.` : ''}
+              Hola, {sesion?.nombre}. Entraste como {rolActual?.nombre || 'usuario'}: monedas, ventas, compras,
+              inventario, contabilidad y nómina de todos tus países en un solo lugar.
             </p>
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <button
-                onClick={() => setVistaActiva('tasas')}
-                className="px-7 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:brightness-110 shadow-[0_0_35px_rgba(192,132,252,0.5)] transition"
-              >
-                Ver tasas de cambio
-              </button>
-              <button
-                onClick={() => setVistaActiva('sucursales')}
-                className="px-7 py-3.5 rounded-full text-sm font-semibold text-purple-100 border border-purple-300/40 hover:border-sky-300 hover:text-white transition"
-              >
-                Explorar sedes
-              </button>
-            </div>
+            {primerGrupo && (
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <button
+                  onClick={() => setVistaActiva(primerGrupo.items[0])}
+                  className="px-7 py-3.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:brightness-110 shadow-[0_0_35px_rgba(192,132,252,0.5)] transition"
+                >
+                  Empezar en {primerGrupo.titulo}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Cinta de divisas */}
-      <div className="border-b border-purple-400/15 bg-[#0a0517]">
-        <ul className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap gap-x-10 gap-y-2 font-display text-lg text-purple-200/80">
-          {DIVISAS.map((d) => (
-            <li key={d}>{d}</li>
-          ))}
-        </ul>
-      </div>
+      {tasas.length > 0 && (
+        <div className="border-b border-purple-400/15 bg-[#0a0517]">
+          <ul className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap gap-x-10 gap-y-2 font-display text-lg text-purple-200/85">
+            {tasas.map((t) => (
+              <li key={t.id_tasa}>
+                {t.moneda_origen}/{t.moneda_destino}{' '}
+                <span className="text-white">{Number(t.tasa).toLocaleString('es-CO', { maximumFractionDigits: 4 })}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      {/* En cartelera: cada grupo es una función con su imagen */}
       <div className="max-w-7xl mx-auto px-6 py-20 space-y-24">
         <h2 className="font-display text-4xl md:text-5xl font-bold text-white">En cartelera</h2>
 
@@ -110,15 +84,15 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
 
               <ul className="divide-y divide-purple-400/20 border-y border-purple-400/20">
                 {g.items.map((it) => (
-                  <li key={it.vista}>
+                  <li key={it}>
                     <button
-                      onClick={() => setVistaActiva(it.vista)}
+                      onClick={() => setVistaActiva(it)}
                       className="w-full flex items-center gap-4 py-4 text-left group focus-visible:outline focus-visible:outline-2 focus-visible:outline-fuchsia-400"
                     >
-                      <img src={it.imagen} alt="" className="w-20 h-14 rounded-xl object-cover border border-purple-400/25" />
-                      <span className="flex-1">
-                        <span className="block font-display text-xl text-white group-hover:text-fuchsia-300 transition">{it.nombre}</span>
-                        <span className="block text-sm text-purple-200/65">{it.detalle}</span>
+                      <img src={imagenDe(it)} alt="" className="w-20 h-14 rounded-xl object-cover border border-purple-400/25 shrink-0" />
+                      <span className="flex-1 min-w-0">
+                        <span className="block font-display text-xl text-white group-hover:text-fuchsia-300 transition">{tituloDe(it)}</span>
+                        <span className="block text-sm text-purple-200/65 truncate">{descripcionDe(it)}</span>
                       </span>
                       <span className="text-sm font-semibold text-fuchsia-300 px-4 py-2 rounded-full border border-fuchsia-400/40 group-hover:bg-fuchsia-500/20 transition">
                         Abrir
