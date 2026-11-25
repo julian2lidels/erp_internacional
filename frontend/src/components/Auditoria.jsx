@@ -14,7 +14,7 @@ export default function Auditoria() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/img/auditoria.svg"
+        imagen="/banners/seguridad.svg"
         etiqueta="Seguridad y Accesos"
         titulo="Bitácora de Auditoría"
         descripcion="Trazabilidad cronológica de creaciones y modificaciones efectuadas en los módulos del ERP."
