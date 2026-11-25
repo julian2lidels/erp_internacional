@@ -1,15 +1,14 @@
-# ---------- Etapa 1: compilar con Vite ----------
-FROM node:22-alpine AS build
+FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 COPY . .
 RUN npm run build
 
-# ---------- Etapa 2: servir con Nginx (sin root, puerto 8080) ----------
-FROM nginxinc/nginx-unprivileged:1.27-alpine
-# URL interna del servicio backend dentro de OpenShift (nombre del Service : puerto)
-ENV BACKEND_URL=http://backend:8080
-COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+FROM nginx:1.27-alpine
+ENV BACKEND_HOST=backend
+ENV BACKEND_PORT=8000
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
