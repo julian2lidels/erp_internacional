@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function Monedas() {
   const [monedas, setMonedas] = useState([]);
@@ -33,12 +34,12 @@ export default function Monedas() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-400">Divisas y Finanzas</span>
-          <h2 className="text-2xl font-bold text-white">Catálogo de Monedas ISO</h2>
-        </div>
-      </div>
+      <SectionBanner
+        imagen="/banners/finanzas.svg"
+        etiqueta="Divisas y Finanzas"
+        titulo="Catálogo de Monedas ISO"
+        descripcion="Administra las divisas habilitadas para operaciones internacionales, facturación y conversión multicontable."
+      />
 
       <form onSubmit={guardar} className="bg-[#120A24] p-5 rounded-2xl border border-purple-500/30 flex flex-wrap gap-3 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
         <input

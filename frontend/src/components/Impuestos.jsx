@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function Impuestos() {
   const [impuestos, setImpuestos] = useState([]);
@@ -38,10 +39,12 @@ export default function Impuestos() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className="text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Organización Global</span>
-        <h2 className="text-2xl font-bold text-white">Reglas Fiscales e Impuestos</h2>
-      </div>
+      <SectionBanner
+        imagen="/banners/global.svg"
+        etiqueta="Organización Global"
+        titulo="Reglas Fiscales e Impuestos"
+        descripcion="Define tarifas tributarias, IVA y retenciones aplicables por país y jurisdicción operativa."
+      />
 
       <form onSubmit={guardar} className="bg-[#120A24] p-5 rounded-2xl border border-purple-500/30 flex flex-wrap gap-3 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
         <input

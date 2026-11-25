@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function Auditoria() {
   const [eventos, setEventos] = useState([]);
@@ -12,15 +13,13 @@ export default function Auditoria() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-400">Seguridad y Accesos</span>
-          <h2 className="text-2xl font-bold text-white">Bitácora de Auditoría</h2>
-        </div>
-        <span className="text-xs px-3 py-1 rounded-full bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/35">
-          Zona Restringida · Admin
-        </span>
-      </div>
+      <SectionBanner
+        imagen="/banners/seguridad.svg"
+        etiqueta="Seguridad y Accesos"
+        titulo="Bitácora de Auditoría"
+        descripcion="Trazabilidad cronológica de creaciones y modificaciones efectuadas en los módulos del ERP."
+        badgeDerecha="Zona Restringida · Admin"
+      />
 
       <div className="bg-[#120A24] rounded-2xl border border-purple-500/30 overflow-hidden">
         <table className="w-full text-left text-sm">

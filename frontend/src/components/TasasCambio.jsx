@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function TasasCambio() {
   const [tasas, setTasas] = useState([]);
@@ -43,10 +44,12 @@ export default function TasasCambio() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-400">Divisas y Finanzas</span>
-        <h2 className="text-2xl font-bold text-white">Tasas de Cambio Internacional</h2>
-      </div>
+      <SectionBanner
+        imagen="/banners/finanzas.svg"
+        etiqueta="Divisas y Finanzas"
+        titulo="Tasas de Cambio Internacional"
+        descripcion="Registra y consulta paridades cambiarias vigentes entre divisas de origen y destino con historial por fecha."
+      />
 
       <form onSubmit={guardar} className="bg-[#120A24] p-5 rounded-2xl border border-purple-500/30 flex flex-wrap gap-3 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
         <select

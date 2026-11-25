@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState([]);
@@ -54,15 +55,13 @@ export default function Usuarios() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-400">Seguridad y Accesos</span>
-          <h2 className="text-2xl font-bold text-white">Usuarios y Permisos</h2>
-        </div>
-        <span className="text-xs px-3 py-1 rounded-full bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/35">
-          Zona Restringida · Admin
-        </span>
-      </div>
+      <SectionBanner
+        imagen="/banners/seguridad.svg"
+        etiqueta="Seguridad y Accesos"
+        titulo="Usuarios y Permisos"
+        descripcion="Registra operadores y auditores, vinculando su rol de seguridad y sucursal asignada."
+        badgeDerecha="Zona Restringida · Admin"
+      />
 
       <form onSubmit={guardar} className="bg-[#120A24] p-5 rounded-2xl border border-fuchsia-500/30 flex flex-wrap gap-3 shadow-[0_0_30px_rgba(217,70,239,0.18)]">
         <input

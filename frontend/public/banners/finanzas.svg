@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" width="1440" height="320">
+  <defs>
+    <linearGradient id="fbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0518"/>
+      <stop offset="55%" stop-color="#1E0B3B"/>
+      <stop offset="100%" stop-color="#090414"/>
+    </linearGradient>
+    <radialGradient id="fglow" cx="80%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#E879F9" stop-opacity="0.65"/>
+      <stop offset="45%" stop-color="#9333EA" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#07040F" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1440" height="320" fill="url(#fbg)"/>
+  <rect width="1440" height="320" fill="url(#fglow)"/>
+  <g stroke="#A855F7" stroke-opacity="0.18" stroke-width="1.5" fill="none">
+    <path d="M80 250 L260 190 L430 215 L620 135 L810 160 L1020 85 L1210 110 L1380 45"/>
+    <path d="M80 280 L280 230 L470 245 L670 175 L880 195 L1100 130 L1380 90" stroke="#38BDF8" stroke-opacity="0.22"/>
+  </g>
+  <g fill="#F5D0FE" fill-opacity="0.14" font-family="sans-serif" font-weight="800" font-size="72">
+    <text x="980" y="130">$</text>
+    <text x="1120" y="210">€</text>
+    <text x="1250" y="120">¥</text>
+    <text x="860" y="230">£</text>
+  </g>
+</svg>

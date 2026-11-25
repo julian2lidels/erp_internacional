@@ -1,13 +1,17 @@
 export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) {
   return (
-    <div className="space-y-12 py-4">
-      {/* Hero Banner estilo plantilla SaaS moderna */}
-      <section className="relative overflow-hidden rounded-3xl border border-purple-500/30 bg-gradient-to-br from-[#160B2E] via-[#100722] to-[#090414] p-8 md:p-12 shadow-[0_0_50px_rgba(147,51,234,0.22)]">
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-fuchsia-600/20 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 left-1/3 w-72 h-72 rounded-full bg-sky-500/15 blur-3xl pointer-events-none" />
+    <div className="space-y-10 py-2">
+      {/* Hero Banner con imagen en degradado Hollow Purple */}
+      <section className="relative overflow-hidden rounded-3xl border border-purple-500/35 bg-[#120A24] p-8 md:p-12 shadow-[0_0_50px_rgba(147,51,234,0.25)]">
+        <img
+          src="/banners/hero.svg"
+          alt="ERP Internacional Core"
+          className="absolute inset-0 w-full h-full object-cover object-right opacity-90 pointer-events-none"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07040F]/95 via-[#0F0622]/85 to-transparent pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl space-y-5">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-purple-950/80 border border-fuchsia-500/35 text-xs font-medium text-fuchsia-300">
+          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-purple-950/85 border border-fuchsia-500/35 text-xs font-medium text-fuchsia-300">
             <span className="w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_10px_#38BDF8]" />
             <span>Framework ERP Internacional operativo y conectado</span>
           </div>
@@ -19,8 +23,8 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
             </span>
           </h1>
 
-          <p className="text-base md:text-lg text-purple-200/75 leading-relaxed">
-            Control centralizado de divisas ISO, tasas de cambio en tiempo real, sucursales internacionales y regímenes tributarios desde una arquitectura desplegada en OpenShift.
+          <p className="text-base md:text-lg text-purple-200/80 leading-relaxed">
+            Control centralizado de divisas ISO, tasas de cambio en tiempo real, sucursales internacionales y regímenes tributarios desplegados en OpenShift.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -32,7 +36,7 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
             </button>
             <button
               onClick={() => setVistaActiva('sucursales')}
-              className="px-6 py-3 rounded-full text-sm font-semibold text-purple-200 bg-purple-950/60 border border-purple-500/35 hover:border-fuchsia-400/60 hover:text-white transition"
+              className="px-6 py-3 rounded-full text-sm font-semibold text-purple-200 bg-purple-950/70 border border-purple-500/35 hover:border-fuchsia-400/60 hover:text-white transition"
             >
               Explorar Sedes Globales
             </button>
@@ -40,21 +44,27 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
         </div>
       </section>
 
-      {/* Tarjetas Modulares estilo Grid SaaS */}
+      {/* Grid de Tarjetas Modulares con cabecera ilustrada en degradado */}
       <section className={`grid grid-cols-1 ${esAdmin ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-6`}>
         {/* Módulo 1: Divisas y Finanzas */}
-        <div className="rounded-3xl bg-[#120A24]/90 border border-purple-500/25 hover:border-fuchsia-500/45 p-7 flex flex-col justify-between transition shadow-[0_10px_35px_rgba(0,0,0,0.45)]">
-          <div className="space-y-3 mb-8">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-400">
-              Módulo 01
-            </span>
-            <h2 className="text-2xl font-bold text-white">Divisas y Finanzas</h2>
-            <p className="text-sm text-purple-200/70 leading-relaxed">
-              Catálogo de monedas ISO internacionales y registro histórico de tasas de conversión entre mercados.
-            </p>
+        <div className="overflow-hidden rounded-3xl bg-[#120A24]/95 border border-purple-500/30 hover:border-fuchsia-500/55 flex flex-col justify-between transition shadow-[0_12px_35px_rgba(0,0,0,0.5)]">
+          <div>
+            <div className="relative h-32 w-full overflow-hidden">
+              <img src="/banners/finanzas.svg" alt="Divisas y Finanzas" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#120A24] via-[#120A24]/40 to-transparent" />
+              <span className="absolute bottom-3 left-6 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-400">
+                Módulo 01
+              </span>
+            </div>
+            <div className="px-7 pb-6 pt-2 space-y-2">
+              <h2 className="text-2xl font-bold text-white">Divisas y Finanzas</h2>
+              <p className="text-sm text-purple-200/70 leading-relaxed">
+                Catálogo de monedas ISO internacionales y registro histórico de tasas de conversión entre mercados.
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="px-7 pb-7 space-y-3">
             <button
               onClick={() => setVistaActiva('monedas')}
               className="w-full px-4 py-3.5 rounded-2xl bg-[#1A0F33] hover:bg-purple-900/50 border border-purple-500/25 hover:border-fuchsia-400/50 text-sm font-semibold text-white flex items-center justify-between transition"
@@ -73,18 +83,24 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
         </div>
 
         {/* Módulo 2: Organización Global */}
-        <div className="rounded-3xl bg-[#120A24]/90 border border-purple-500/25 hover:border-fuchsia-500/45 p-7 flex flex-col justify-between transition shadow-[0_10px_35px_rgba(0,0,0,0.45)]">
-          <div className="space-y-3 mb-8">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-sky-400">
-              Módulo 02
-            </span>
-            <h2 className="text-2xl font-bold text-white">Organización Global</h2>
-            <p className="text-sm text-purple-200/70 leading-relaxed">
-              Países de operación, administración de sedes y sucursales internacionales, y reglas fiscales por jurisdicción.
-            </p>
+        <div className="overflow-hidden rounded-3xl bg-[#120A24]/95 border border-purple-500/30 hover:border-sky-400/55 flex flex-col justify-between transition shadow-[0_12px_35px_rgba(0,0,0,0.5)]">
+          <div>
+            <div className="relative h-32 w-full overflow-hidden">
+              <img src="/banners/global.svg" alt="Organización Global" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#120A24] via-[#120A24]/40 to-transparent" />
+              <span className="absolute bottom-3 left-6 text-[11px] font-bold uppercase tracking-[0.2em] text-sky-400">
+                Módulo 02
+              </span>
+            </div>
+            <div className="px-7 pb-6 pt-2 space-y-2">
+              <h2 className="text-2xl font-bold text-white">Organización Global</h2>
+              <p className="text-sm text-purple-200/70 leading-relaxed">
+                Países de operación, administración de sedes y sucursales internacionales, y reglas fiscales por jurisdicción.
+              </p>
+            </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="px-7 pb-7 space-y-3">
             <button
               onClick={() => setVistaActiva('sucursales')}
               className="w-full px-4 py-3.5 rounded-2xl bg-[#1A0F33] hover:bg-purple-900/50 border border-purple-500/25 hover:border-sky-400/50 text-sm font-semibold text-white flex items-center justify-between transition"
@@ -104,23 +120,29 @@ export default function InicioDashboard({ setVistaActiva, esAdmin, rolActual }) 
 
         {/* Módulo 3 (Oculto para roles no-Admin): Seguridad y Accesos */}
         {esAdmin && (
-          <div className="rounded-3xl bg-gradient-to-b from-[#1A0D36] to-[#120A24] border border-fuchsia-500/35 hover:border-fuchsia-400 p-7 flex flex-col justify-between transition shadow-[0_0_35px_rgba(217,70,239,0.18)]">
-            <div className="space-y-3 mb-8">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-400">
-                  Módulo 03 · Admin
-                </span>
-                <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-500/30">
-                  {rolActual?.nombre}
-                </span>
+          <div className="overflow-hidden rounded-3xl bg-[#120A24]/95 border border-fuchsia-500/40 hover:border-fuchsia-400 flex flex-col justify-between transition shadow-[0_0_40px_rgba(217,70,239,0.2)]">
+            <div>
+              <div className="relative h-32 w-full overflow-hidden">
+                <img src="/banners/seguridad.svg" alt="Seguridad y Accesos" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#120A24] via-[#120A24]/40 to-transparent" />
+                <div className="absolute bottom-3 left-6 right-6 flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia-400">
+                    Módulo 03 · Admin
+                  </span>
+                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-200 border border-fuchsia-400/35">
+                    {rolActual?.nombre}
+                  </span>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-white">Seguridad y Accesos</h2>
-              <p className="text-sm text-purple-200/70 leading-relaxed">
-                Control de roles, asignación de permisos por módulo, gestión de usuarios y trazabilidad de auditoría.
-              </p>
+              <div className="px-7 pb-6 pt-2 space-y-2">
+                <h2 className="text-2xl font-bold text-white">Seguridad y Accesos</h2>
+                <p className="text-sm text-purple-200/70 leading-relaxed">
+                  Control de roles, asignación de permisos por módulo, gestión de usuarios y trazabilidad de auditoría.
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="px-7 pb-7 space-y-3">
               <button
                 onClick={() => setVistaActiva('roles')}
                 className="w-full px-4 py-3.5 rounded-2xl bg-[#211142] hover:bg-fuchsia-900/40 border border-fuchsia-500/30 text-sm font-semibold text-white flex items-center justify-between transition"

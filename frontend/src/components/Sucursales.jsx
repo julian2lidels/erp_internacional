@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SectionBanner from './SectionBanner';
 
 export default function Sucursales() {
   const [sucursales, setSucursales] = useState([]);
@@ -49,10 +50,12 @@ export default function Sucursales() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <span className="text-xs font-bold uppercase tracking-[0.2em] text-sky-400">Organización Global</span>
-        <h2 className="text-2xl font-bold text-white">Sucursales y Países de Operación</h2>
-      </div>
+      <SectionBanner
+        imagen="/banners/global.svg"
+        etiqueta="Organización Global"
+        titulo="Sucursales y Países de Operación"
+        descripcion="Configura las sedes internacionales, ciudades de operación y moneda contable base asignada a cada centro."
+      />
 
       <form onSubmit={guardar} className="bg-[#120A24] p-5 rounded-2xl border border-purple-500/30 flex flex-wrap gap-3 shadow-[0_0_30px_rgba(147,51,234,0.15)]">
         <input

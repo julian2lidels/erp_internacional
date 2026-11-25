@@ -1,7 +1,3 @@
--- ============================================================================
--- ERP INTERNACIONAL - ESQUEMA COMPLETO E IDEMPOTENTE (MYSQL 8.0)
--- ============================================================================
-
 CREATE DATABASE IF NOT EXISTS erp_internacional
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
@@ -70,10 +66,6 @@ CREATE TABLE IF NOT EXISTS auditoria (
     modulo VARCHAR(60) NOT NULL,
     fecha_evento TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- ============================================================================
--- DATOS SEMILLA INICIALES (IDEMPOTENTES)
--- ============================================================================
 
 INSERT IGNORE INTO rol (id_rol, nombre, descripcion) VALUES
 (1, 'Administrador', 'Acceso total: gestión de roles, usuarios, sucursales, impuestos y tasas'),

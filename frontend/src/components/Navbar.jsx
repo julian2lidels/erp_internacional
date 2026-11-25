@@ -33,7 +33,6 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
   return (
     <header className="sticky top-0 z-50 border-b border-purple-500/20 bg-[#0A0614]/85 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-6 h-20 flex flex-wrap items-center justify-between gap-4">
-        {/* Identidad Visual Hollow Purple */}
         <button
           onClick={() => {
             setVistaActiva('inicio');
@@ -49,12 +48,14 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
               Panel Principal
             </span>
             <span className="text-lg font-extrabold text-white tracking-tight">
-              ERP <span className="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-sky-400 bg-clip-text text-transparent">Internacional</span>
+              ERP{' '}
+              <span className="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-sky-400 bg-clip-text text-transparent">
+                Internacional
+              </span>
             </span>
           </div>
         </button>
 
-        {/* Menús Desplegables estilo SaaS Wix + Control Oculto de Seguridad */}
         <nav className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={() => {
@@ -70,7 +71,6 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
             Inicio
           </button>
 
-          {/* Dropdown: Divisas y Finanzas */}
           <div className="relative">
             <button
               onClick={() => toggleMenu('finanzas')}
@@ -110,7 +110,6 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
             )}
           </div>
 
-          {/* Dropdown: Organización Global */}
           <div className="relative">
             <button
               onClick={() => toggleMenu('global')}
@@ -150,7 +149,6 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
             )}
           </div>
 
-          {/* Menú Oculto: Seguridad y Accesos (Solo visible para Administrador) */}
           {esAdmin && (
             <div className="relative">
               <button
@@ -203,7 +201,6 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
           )}
         </nav>
 
-        {/* Selector de Perfil Activo */}
         <div className="flex items-center gap-2.5 bg-[#130B24] border border-purple-500/30 rounded-full px-3.5 py-1.5">
           <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
           <span className="text-xs text-purple-300/80">Rol:</span>
