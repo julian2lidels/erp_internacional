@@ -45,7 +45,7 @@ export default function TasasCambio() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/finanzas.svg"
+        imagen="/img/tasas.svg"
         etiqueta="Divisas y Finanzas"
         titulo="Tasas de Cambio Internacional"
         descripcion="Registra y consulta paridades cambiarias vigentes entre divisas de origen y destino con historial por fecha."

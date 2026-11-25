@@ -40,7 +40,7 @@ export default function Impuestos() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/global.svg"
+        imagen="/img/impuestos.svg"
         etiqueta="Organización Global"
         titulo="Reglas Fiscales e Impuestos"
         descripcion="Define tarifas tributarias, IVA y retenciones aplicables por país y jurisdicción operativa."

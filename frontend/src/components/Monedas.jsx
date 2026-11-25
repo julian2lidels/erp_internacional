@@ -35,7 +35,7 @@ export default function Monedas() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/finanzas.svg"
+        imagen="/img/monedas.svg"
         etiqueta="Divisas y Finanzas"
         titulo="Catálogo de Monedas ISO"
         descripcion="Administra las divisas habilitadas para operaciones internacionales, facturación y conversión multicontable."

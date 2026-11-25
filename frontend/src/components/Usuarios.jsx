@@ -56,7 +56,7 @@ export default function Usuarios() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/seguridad.svg"
+        imagen="/img/usuarios.svg"
         etiqueta="Seguridad y Accesos"
         titulo="Usuarios y Permisos"
         descripcion="Registra operadores y auditores, vinculando su rol de seguridad y sucursal asignada."

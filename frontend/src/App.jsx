@@ -46,8 +46,8 @@ export default function App() {
 
       <footer className="border-t border-purple-500/15 bg-[#080412]/90 py-5 px-6 mt-12">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs text-purple-300/60">
-          <span>ERP Internacional · Core Multimoneda & Multisucursal</span>
-          <span>Desplegado en Red Hat OpenShift · Hollow Purple Edition</span>
+          <span>ERP Internacional: multimoneda y multisucursal</span>
+          <span>Desplegado en Red Hat OpenShift</span>
         </div>
       </footer>
     </div>

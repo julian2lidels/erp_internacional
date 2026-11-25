@@ -44,10 +44,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
             ERP
           </div>
           <div>
-            <span className="block text-[10px] font-bold uppercase tracking-[0.22em] text-fuchsia-400">
-              Panel Principal
-            </span>
-            <span className="text-lg font-extrabold text-white tracking-tight">
+            <span className="font-display text-xl font-bold text-white tracking-tight">
               ERP{' '}
               <span className="bg-gradient-to-r from-purple-400 via-fuchsia-400 to-sky-400 bg-clip-text text-transparent">
                 Internacional
@@ -81,7 +78,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
               }`}
             >
               <span>Divisas y Finanzas</span>
-              <span className="text-[10px] text-fuchsia-400">{menuAbierto === 'finanzas' ? '▲' : '▼'}</span>
+              <span className="text-[10px] text-fuchsia-400">{menuAbierto === 'finanzas' ? '˄' : '˅'}</span>
             </button>
 
             {menuAbierto === 'finanzas' && (
@@ -94,7 +91,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                   className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-purple-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                 >
                   <span>Catálogo de Monedas</span>
-                  <span className="text-fuchsia-400">→</span>
+                  
                 </button>
                 <button
                   onClick={() => {
@@ -104,7 +101,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                   className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-purple-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                 >
                   <span>Tasas de Cambio</span>
-                  <span className="text-fuchsia-400">→</span>
+                  
                 </button>
               </div>
             )}
@@ -120,7 +117,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
               }`}
             >
               <span>Organización Global</span>
-              <span className="text-[10px] text-fuchsia-400">{menuAbierto === 'global' ? '▲' : '▼'}</span>
+              <span className="text-[10px] text-fuchsia-400">{menuAbierto === 'global' ? '˄' : '˅'}</span>
             </button>
 
             {menuAbierto === 'global' && (
@@ -133,7 +130,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                   className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-purple-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                 >
                   <span>Sedes y Sucursales</span>
-                  <span className="text-fuchsia-400">→</span>
+                  
                 </button>
                 <button
                   onClick={() => {
@@ -143,7 +140,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                   className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-purple-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                 >
                   <span>Reglas e Impuestos</span>
-                  <span className="text-fuchsia-400">→</span>
+                  
                 </button>
               </div>
             )}
@@ -160,7 +157,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                 }`}
               >
                 <span>Seguridad y Accesos</span>
-                <span className="text-[10px]">{menuAbierto === 'seguridad' ? '▲' : '▼'}</span>
+                <span className="text-[10px]">{menuAbierto === 'seguridad' ? '˄' : '˅'}</span>
               </button>
 
               {menuAbierto === 'seguridad' && (
@@ -173,7 +170,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                     className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-fuchsia-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                   >
                     <span>Gestión de Roles</span>
-                    <span className="text-fuchsia-400">→</span>
+                    
                   </button>
                   <button
                     onClick={() => {
@@ -183,7 +180,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                     className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-fuchsia-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                   >
                     <span>Usuarios y Permisos</span>
-                    <span className="text-fuchsia-400">→</span>
+                    
                   </button>
                   <button
                     onClick={() => {
@@ -193,7 +190,7 @@ export default function Navbar({ vistaActiva, setVistaActiva, rolActual, setRolA
                     className="w-full text-left px-4 py-2.5 text-sm text-purple-100 hover:bg-fuchsia-600/25 hover:text-fuchsia-300 flex items-center justify-between"
                   >
                     <span>Auditoría del Sistema</span>
-                    <span className="text-fuchsia-400">→</span>
+                    
                   </button>
                 </div>
               )}

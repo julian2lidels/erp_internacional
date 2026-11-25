@@ -51,7 +51,7 @@ export default function Sucursales() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/global.svg"
+        imagen="/img/sucursales.svg"
         etiqueta="Organización Global"
         titulo="Sucursales y Países de Operación"
         descripcion="Configura las sedes internacionales, ciudades de operación y moneda contable base asignada a cada centro."

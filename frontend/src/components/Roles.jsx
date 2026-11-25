@@ -33,7 +33,7 @@ export default function Roles() {
   return (
     <div className="space-y-6">
       <SectionBanner
-        imagen="/banners/seguridad.svg"
+        imagen="/img/roles.svg"
         etiqueta="Seguridad y Accesos"
         titulo="Gestión de Roles"
         descripcion="Define perfiles operativos y niveles de privilegio dentro del núcleo administrativo del ERP."

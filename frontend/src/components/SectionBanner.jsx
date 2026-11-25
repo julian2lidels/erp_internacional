@@ -1,39 +1,21 @@
-export default function SectionBanner({
-  imagen,
-  etiqueta,
-  titulo,
-  descripcion,
-  badgeDerecha,
-}) {
+// Cabecera de cada sección: imagen temática a un lado y título grande tipo cartelera.
+export default function SectionBanner({ imagen, etiqueta, titulo, descripcion, badgeDerecha }) {
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-purple-500/35 bg-[#120A24] shadow-[0_0_40px_rgba(147,51,234,0.22)]">
-      {/* Imagen temática de fondo */}
+    <section className="relative overflow-hidden rounded-[2rem] border border-purple-400/25 bg-[#0d0720] min-h-[260px] flex">
       <img
         src={imagen}
-        alt={titulo}
-        className="absolute inset-0 w-full h-full object-cover object-center opacity-85 pointer-events-none"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-y-0 right-0 h-full w-full md:w-3/5 object-cover pointer-events-none"
       />
-      {/* Capa de degradado Hollow Purple para legibilidad total */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07040F]/95 via-[#130829]/80 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#07040F] via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0d0720] via-[#0d0720]/85 to-transparent md:via-[#0d0720]/60" />
 
-      <div className="relative z-10 p-7 md:p-9 flex flex-wrap items-end justify-between gap-4">
-        <div className="max-w-2xl space-y-2">
-          <span className="inline-block text-[11px] font-bold uppercase tracking-[0.22em] text-fuchsia-400">
-            {etiqueta}
-          </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-            {titulo}
-          </h2>
-          {descripcion && (
-            <p className="text-sm text-purple-200/80 leading-relaxed">
-              {descripcion}
-            </p>
-          )}
-        </div>
-
+      <div className="relative z-10 p-8 md:p-12 flex flex-col justify-end gap-3 max-w-xl">
+        <span className="text-sm font-medium text-fuchsia-300">{etiqueta}</span>
+        <h2 className="font-display text-4xl md:text-5xl font-bold text-white leading-[1.05]">{titulo}</h2>
+        {descripcion && <p className="text-sm md:text-base text-purple-100/75 leading-relaxed">{descripcion}</p>}
         {badgeDerecha && (
-          <span className="text-xs font-semibold px-3.5 py-1.5 rounded-full bg-fuchsia-500/15 text-fuchsia-300 border border-fuchsia-400/35 backdrop-blur-md">
+          <span className="self-start text-xs font-semibold px-3.5 py-1.5 rounded-full bg-fuchsia-500/15 text-fuchsia-200 border border-fuchsia-400/35">
             {badgeDerecha}
           </span>
         )}
