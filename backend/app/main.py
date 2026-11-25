@@ -1,3 +1,6 @@
+import threading
+import time
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -98,17 +101,55 @@ def inicializar_esquema():
         (1, 'Julian Medina', 'Inicialización del núcleo ERP Internacional', 'Seguridad y Accesos'),
         (2, 'Carlos Operador', 'Actualización de tasa USD -> COP', 'Divisas y Finanzas')"""
     ]
-    try:
-        with engine.begin() as conn:
-            for sql in sentencias:
-                conn.execute(text(sql))
-    except Exception as e:
-        print(f"[WARN] Auto-init DB pendiente: {e}")
+    with engine.begin() as conn:
+        for sql in sentencias:
+            conn.execute(text(sql))
+
+
+def limpiar_esquema_antiguo():
+    """Si MySQL tiene las tablas de la versión anterior (moneda sin columna codigo_iso),
+    las elimina para que se creen con el esquema actual."""
+    with engine.begin() as conn:
+        existe = conn.execute(text(
+            "SELECT COUNT(*) FROM information_schema.tables "
+            "WHERE table_schema = DATABASE() AND table_name = 'moneda'"
+        )).scalar()
+        if not existe:
+            return
+        tiene_iso = conn.execute(text(
+            "SELECT COUNT(*) FROM information_schema.columns "
+            "WHERE table_schema = DATABASE() AND table_name = 'moneda' AND column_name = 'codigo_iso'"
+        )).scalar()
+        if tiene_iso:
+            return
+        print("[INFO] Esquema antiguo detectado: se recrean las tablas con el esquema actual.")
+        tablas = [r[0] for r in conn.execute(text(
+            "SELECT table_name FROM information_schema.tables WHERE table_schema = DATABASE()"
+        )).fetchall()]
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
+        for t in tablas:
+            conn.execute(text(f"DROP TABLE IF EXISTS `{t}`"))
+        conn.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
+
+
+def iniciar_base_de_datos():
+    """Espera a que MySQL esté listo (hasta ~2 min) y crea las tablas y datos iniciales."""
+    for intento in range(1, 41):
+        try:
+            limpiar_esquema_antiguo()
+            inicializar_esquema()
+            print("[INFO] Base de datos lista.")
+            return
+        except Exception as e:
+            print(f"[WARN] MySQL aún no está listo (intento {intento}/40): {e}")
+            time.sleep(3)
+    print("[ERROR] No se pudo inicializar la base de datos.")
 
 
 @app.on_event("startup")
 def on_startup():
-    inicializar_esquema()
+    # En segundo plano, para que la API responda /api/health mientras MySQL arranca
+    threading.Thread(target=iniciar_base_de_datos, daemon=True).start()
 
 
 def registrar_auditoria(db: Session, accion: str, modulo: str, actor: str = "Julian Medina"):
